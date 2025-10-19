@@ -21,93 +21,72 @@ Antes de começar, garanta que você tem as seguintes ferramentas instaladas:
 
 ## Estrutura do Projeto
 
-
-```txt
-
-/agente\_ia\_dip
-├── .env          \# (Arquivo local para suas chaves e configurações)
-├── .gitignore    \# (Define quais arquivos o Git deve ignorar)
-├── Pipfile       \# (Gerado pelo pipenv, define as dependências)
-├── Pipfile.lock  \# (Gerado pelo pipenv, garante builds determinísticos)
-├── config.py     \# Módulo para carregar as configurações do .env
-├── db\_manager.py \# Módulo para gerenciar a conexão e operações do MongoDB
-├── import\_dip.py \# O script CLI principal
-└── utils.py      \# Funções auxiliares (ex: carregar JSON)
-
 ```
+
+/import_dip
+├── .env                # (Arquivo local para suas chaves e configurações - NÃO É ENVIADO AO GIT)
+├── .gitignore          # (Define quais arquivos o Git deve ignorar)
+├── example.env         # (Arquivo de exemplo para as variáveis de ambiente)
+├── Pipfile             # (Gerado pelo pipenv, define as dependências)
+├── Pipfile.lock        # (Gerado pelo pipenv, garante builds determinísticos)
+├── requirements.txt    # (Lista de dependências para ambientes sem pipenv)
+├── config.py           # Módulo para carregar as configurações do .env
+├── db_manager.py       # Módulo para gerenciar a conexão e operações do MongoDB
+├── import_dip.py       # O script CLI principal
+└── utils.py            # Funções auxiliares (ex: carregar JSON)
+
+````
 
 ## Instalação e Configuração
 
 Siga estes passos para configurar o ambiente de desenvolvimento localmente.
 
-### 1. Iniciar com Git (Novo Repositório)
+### 1. Clonar o Repositório
 
-Se você está a começar este projeto do zero no seu computador, é uma boa prática inicializá-lo com o Git para controlo de versão.
+Primeiro, clone o repositório do GitHub para o seu computador local usando o terminal.
 
 ```bash
-# 1. Navegue até a pasta onde você criou os arquivos Python
-cd /caminho/para/agente_ia_dip
+# 1. Clone o repositório
+git clone [https://github.com/natanfiuza/import_dip.git](https://github.com/natanfiuza/import_dip.git)
 
-# 2. Inicialize um novo repositório Git
-#    (O -b main define o nome da branch principal como "main")
-git init -b main
-
-# 3. Crie um arquivo .gitignore
-#    É CRUCIAL para não enviar arquivos sensíveis (como .env)
-#    ou pastas de ambiente (como .venv) para o seu repositório.
+# 2. Entre na pasta do projeto
+cd import_dip
 ````
-
-Crie um arquivo chamado `.gitignore` na raiz do projeto e adicione o seguinte conteúdo:
-
-```gitignore
-# Arquivos de ambiente Python
-.venv/
-__pycache__/
-*.pyc
-
-# Arquivo de variáveis de ambiente
-.env
-
-# Arquivos de sistema
-.DS_Store
-```
-
-```bash
-# 4. Adicione todos os arquivos (exceto os ignorados) ao Git
-git add .
-
-# 5. Crie o seu primeiro "commit" (um ponto de salvamento)
-git commit -m "Commit inicial - Estrutura do importador DIP para MongoDB"
-```
 
 ### 2\. Configurar Dependências com Pipenv
 
-Este projeto usa `pipenv` para gerenciar as dependências e o ambiente virtual de forma isolada.
+Este projeto usa `pipenv` para gerenciar as dependências e o ambiente virtual de forma isolada. O `Pipfile` na raiz do projeto já contém todas as dependências necessárias.
 
 ```bash
-# 1. Na raiz do projeto, instale as dependências
-#    Isso irá criar os arquivos Pipfile e Pipfile.lock
-pipenv install pymongo python-dotenv
+# 1. Na raiz do projeto, instale as dependências listadas no Pipfile
+#    Isso irá criar o ambiente virtual (.venv) e instalar os pacotes.
+pipenv install
 
 # 2. Ative o ambiente virtual
 #    Todos os comandos Python devem ser executados após este passo.
 pipenv shell
 ```
 
+As principais dependências instaladas são:
+
   * **`pymongo`**: O driver oficial do MongoDB para Python.
   * **`python-dotenv`**: Biblioteca usada para ler o arquivo `.env`.
 
+*(Nota: O arquivo `requirements.txt` também é fornecido caso você prefira usar `pip` e `venv` tradicionais, mas `pipenv` é o método recomendado para este projeto.)*
+
 ### 3\. Configuração do Ambiente (`.env`)
 
-Antes de executar o script, você deve criar um arquivo `.env` na raiz do projeto.
+Antes de executar o script, você deve criar um arquivo `.env` para armazenar suas chaves de API e strings de conexão de forma segura.
 
-1.  Faça uma copia do arquivo:
+1.  Copie o arquivo de exemplo `example.env` para criar o seu arquivo `.env` local:
 
     ```bash
-    example.env -> .env
+    cp example.env .env
     ```
 
-2.  Altere as seguintes variáveis, substituindo pelos seus dados reais:
+    *(O arquivo `.env` já está no `.gitignore`, por isso ele nunca será enviado para o repositório e manterá as suas chaves seguras.)*
+
+2.  Abra o arquivo `.env` com seu editor de texto e altere as variáveis, substituindo pelos seus dados reais:
 
     ```ini
     # Configurações do MongoDB
@@ -117,8 +96,8 @@ Antes de executar o script, você deve criar um arquivo `.env` na raiz do projet
     # Exemplo para conexão na nuvem (Atlas):
     # MONGO_URI="mongodb+srv://SEU_USUARIO:SUA_SENHA@SEU_CLUSTER.mongodb.net/?retryWrites=true&w=majority"
 
-    MONGO_DB_NAME=""
-    MONGO_COLLECTION_NAME=""
+    MONGO_DB_NAME="agente_ia_livro"
+    MONGO_COLLECTION_NAME="regras_de_vida_vetores"
     ```
 
 ## Como Usar
