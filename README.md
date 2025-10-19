@@ -1,9 +1,7 @@
 
 # Agente IA - Importador do Pipeline de Ingestão de Dados (DIP)
 
-Este é um script Python de linha de comando (CLI) desenhado para a **Parte 1 (Indexing)** do projeto "Agente IA - Regra de Vida".
-
-A sua principal função é ler um arquivo JSON — contendo os *chunks* de texto e os *vetores de embedding* (gerados na etapa anterior) — e importá-los em massa para uma coleção específica no MongoDB.
+Este é um script Python de linha de comando (CLI), a sua principal função é ler um arquivo JSON — contendo os *chunks* de texto e os *vetores de embedding* — e importá-los em massa para uma coleção específica no MongoDB.
 
 ## Funcionalidades
 
